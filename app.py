@@ -26,7 +26,8 @@ def preview():
         
         # Handle direct text input
         text_content = request.form.get('text_content', '')
-        return render_template('preview.html', content=text_content)
+        if text_content:
+            return render_template('preview.html', content=text_content)
     
     return render_template('preview.html')
 
