@@ -40,8 +40,11 @@
             border-radius: 4px;
             resize: vertical;
         }
-        .file-input {
-            padding: 20px 0;
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
         button {
             background-color: #4CAF50;
@@ -55,10 +58,10 @@
         button:hover {
             background-color: #45a049;
         }
-        .separator {
-            text-align: center;
-            margin: 20px 0;
-            color: #666;
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -66,20 +69,43 @@
     <div class="container">
         <h1>Code Preview Tool</h1>
         <form action="/preview" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="text_content">Enter your code directly:</label>
+            <div class="options">
+                <div>
+                    <input type="radio" id="text_input" name="input_type" value="text" checked>
+                    <label for="text_input">Text Input</label>
+                </div>
+                <div>
+                    <input type="radio" id="file_upload" name="input_type" value="file">
+                    <label for="file_upload">File Upload</label>
+                </div>
+            </div>
+            
+            <div class="form-group" id="text_group">
+                <label for="text_content">Enter your code:</label>
                 <textarea id="text_content" name="text_content" placeholder="Paste your code here..."></textarea>
             </div>
             
-            <div class="separator">OR</div>
-            
-            <div class="form-group file-input">
+            <div class="form-group" id="file_group" style="display: none;">
                 <label for="file">Upload a file:</label>
-                <input type="file" id="file" name="file" accept=".txt,.py,.js,.html,.css,.json,.md">
+                <input type="file" id="file" name="file">
             </div>
             
             <button type="submit">Preview Code</button>
         </form>
     </div>
+    
+    <script>
+        document.querySelectorAll('input[name="input_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'text') {
+                    document.getElementById('text_group').style.display = 'block';
+                    document.getElementById('file_group').style.display = 'none';
+                } else {
+                    document.getElementById('text_group').style.display = 'none';
+                    document.getElementById('file_group').style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
